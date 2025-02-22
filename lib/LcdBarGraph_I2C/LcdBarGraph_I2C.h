@@ -11,12 +11,15 @@ public:
     LcdBarGraph_I2C(LiquidCrystal_I2C *, uint8_t, uint8_t);
     void begin();
     void drawValue(uint16_t, uint16_t);
+    void drawValue(int16_t, int16_t, int16_t);
 
 private:
     LiquidCrystal_I2C *_lcd;
     uint8_t _startX;
     uint8_t _startY;
     int16_t _prevValue;
+    uint8_t _maxBarWidth;
+
     uint8_t level1[8] = {
         B10000,
         B10000,
@@ -56,6 +59,16 @@ private:
         B11110,
         B11110,
         B11110};
+
+    uint8_t level5[8] = {
+        B10000,
+        B10000,
+        B10000,
+        B10000,
+        B10000,
+        B10000,
+        B10000,
+        B10000};
 };
 
 #endif
