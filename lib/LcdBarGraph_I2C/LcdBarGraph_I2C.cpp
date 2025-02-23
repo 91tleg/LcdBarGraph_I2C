@@ -15,7 +15,6 @@ void LcdBarGraph_I2C::begin()
     _lcd->createChar(2, level2);
     _lcd->createChar(3, level3);
     _lcd->createChar(4, level4);
-    _lcd->createChar(5, level5);
 }
 
 void LcdBarGraph_I2C::drawValue(uint16_t value, uint16_t maxValue)
@@ -50,14 +49,14 @@ void LcdBarGraph_I2C::drawValue(int16_t value, int16_t minValue, int16_t maxValu
 {
     if (minValue > maxValue)
         return;
-    uint8_t fullBars = static_cast<uint8_t>((value - minValue) * _maxBarWidth / (maxValue - minValue));
-    uint8_t partialBar = static_cast<uint8_t>(value - minValue) * (_maxBarWidth * 5) / static_cast<uint8_t>(maxValue - minValue) % 5;
+    uint8_t fullBars = static_cast<uint8_t>((static_cast<int32_t>(value - minValue) * _maxBarWidth) / (maxValue - minValue));
+    uint8_t partialBar = static_cast<uint8_t>( (static_cast<int32_t>(value - minValue) * (_maxBarWidth * 5)) / (maxValue - minValue)) % 5;
     uint8_t scaledValue = fullBars * 5 + partialBar;
     uint8_t zeroPos = static_cast<uint8_t>((0 - minValue) * _maxBarWidth / (maxValue - minValue));
 
     _lcd->setCursor(zeroPos, _startY);
-    if (fullBars <= zeroPos)
-        _lcd->write(5);
+    if (fullBars < zeroPos)
+        _lcd->write(1);
 
     if (_prevValue != scaledValue)
     {
@@ -77,7 +76,7 @@ void LcdBarGraph_I2C::drawValue(int16_t value, int16_t minValue, int16_t maxValu
         for (uint8_t i = fullBars; i < _maxBarWidth; ++i)
         {
             if (i == zeroPos)
-                _lcd->write(5); // Don't clear zero mark
+                _lcd->write(1); // Don't clear zero mark
             else
                 _lcd->write(static_cast<uint8_t>(' '));
         }
