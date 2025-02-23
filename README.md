@@ -1,5 +1,5 @@
 
-# BigNumbers_I2C Arduino Library
+# LcdBarGraph_I2C Arduino Library
 ## Description
 The LcdBarGraph_I2C library provides functions to display bar graphs on a LiquidCrystal display using I2C communication. 
 
@@ -22,18 +22,18 @@ LcdBarGraph_I2C::LcdBarGraph_I2C(LiquidCrystal_I2C *lcd, uint8_t startX, uint8_t
 
 Parameters: lcd - Pointer to a LiquidCrystal_I2C object.
             startX - starting x index.
-            startY = starting y index.
+            startY - starting y index.
 
 ### Methods
 begin()
 
-Initializes the custom characters.
+ Initializes the custom characters.
 
 void drawValue(uint16_t value, uint16_t maxValue)
 
-draws the value from the range of 0 - maxValue
+ draws the value from the range of 0 - maxValue
 
 void drawValue(int16_t value, int16_t minValue, int16_t) maxValue;
 
-draws the value from the range of minValue - maxValue
+ draws the value from the range of minValue - maxValue
 
