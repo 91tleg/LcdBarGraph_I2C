@@ -19,6 +19,8 @@ void LcdBarGraph_I2C::begin()
 
 void LcdBarGraph_I2C::drawValue(uint16_t value, uint16_t maxValue)
 {
+    if (value < 0 || value > maxValue)
+        return;
     uint8_t fullBars = static_cast<uint8_t>(value * static_cast<uint16_t>(_maxBarWidth) / maxValue);
     uint8_t partialBar = static_cast<uint8_t>((value * static_cast<uint16_t>(_maxBarWidth * 5) / maxValue) % 5);
     uint8_t scaledValue = fullBars * 5 + partialBar;
@@ -47,7 +49,7 @@ void LcdBarGraph_I2C::drawValue(uint16_t value, uint16_t maxValue)
 
 void LcdBarGraph_I2C::drawValue(int16_t value, int16_t minValue, int16_t maxValue)
 {
-    if (minValue > maxValue)
+    if (minValue > maxValue || value < minValue || value > maxValue)
         return;
     uint8_t fullBars = static_cast<uint8_t>((static_cast<int32_t>(value - minValue) * _maxBarWidth) / (maxValue - minValue));
     uint8_t partialBar = static_cast<uint8_t>( (static_cast<int32_t>(value - minValue) * (_maxBarWidth * 5)) / (maxValue - minValue)) % 5;
